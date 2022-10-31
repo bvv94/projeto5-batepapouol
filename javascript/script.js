@@ -1,6 +1,5 @@
-const nome = {};
-const chat = {};
 let user = '';
+const chat = {};
 
 inicio();
 
@@ -8,20 +7,19 @@ function inicio() {
     // const name=prompt('informe seu nome: ');
     const nome = { name: prompt('informe seu nome: ') };//adiciona nome inserido a um objeto
     const userName = axios.post("https://mock-api.driven.com.br/api/v6/uol/participants", nome);//adiciona nome na api
-    user = nome.name;
+    user = nome;
     userName.then(carregarMsgs);
-    userName.catch(inicio);
+    // userName.catch(inicio);
 }
 // ----- FIM ADICIONAR USUARIO- ----///
 online();
 function online() {
-    const x = axios.post("https://mock-api.driven.com.br/api/v6/uol/status", { name: nome });
-    x.then(console.log("deu certo"));
-    x.then(carregarMsgs);
-    x.catch(console.log(x));
-
+    axios.post("https://mock-api.driven.com.br/api/v6/uol/status", user);
 }
 setInterval(online, 2000);
+//--------------------------------------//
+
+//------------------------------------//
 
 // online();
 /*
@@ -77,34 +75,32 @@ const dest = '';
 
 function enviarmsg() {
     const x = document.querySelector(".texto");
-    console.log(x.value);
     sendmsg(x.value);
-    /*let condicao = confirm('enviar mensagem para todos?');
+    let condicao = confirm('enviar mensagem para todos?');
     if (condicao) {
         sendmsg(x.value);
     } else {
         console.log(dest);
         dest = prompt("Informe o destinatário");
         console.log(dest);
-        sendmsg(x.value);
-    }*/
+        sendmsgprivate(x.value);
+    }
 }
 
 function sendmsg(texto) {
-    let enviar = {};
-    console.log(texto);
-    if (dest !== '') {
-        enviar = {
-            from: user,
-            to: 'todos',
-            text: texto,
-            type: 'message' // ou "private_message" para o bônus
-        }
-        console.log(enviar);
+    const enviar = {
+        from: user,
+        to: 'todos',
+        text: texto,
+        type: 'message' // ou "private_message" para o bônus
     }
+    console.log(enviar);
     const z = axios.post("https://mock-api.driven.com.br/api/v6/uol/messages", enviar);
     z.then(carregarMsgs);
     // z.catch(window.location.reload());
+
+}
+function mandando() {
 
 }
 
