@@ -15,7 +15,11 @@ function inicio() {
 // ----- FIM ADICIONAR USUARIO- ----///
 online();
 function online() {
-    axios.post("https://mock-api.driven.com.br/api/v6/uol/status", { name: nome });
+    const x = axios.post("https://mock-api.driven.com.br/api/v6/uol/status", { name: nome });
+    x.then(console.log("deu certo"));
+    x.then(carregarMsgs);
+    x.catch(console.log(x));
+
 }
 setInterval(online, 2000);
 
@@ -30,7 +34,7 @@ online();
 
 */
 
-function carregarMsgs() {
+function carregarMsgs() { //---Solicita todas as mensagens
     const mensagens = axios.get("https://mock-api.driven.com.br/api/v6/uol/messages");
     mensagens.then(msgs);
 }
@@ -38,7 +42,7 @@ function carregarMsgs() {
 setInterval(carregarMsgs, 10000);
 
 
-function msgs(resposta) {
+function msgs(resposta) { //------renderiza as msgs
     const mensagens = resposta.data; //retorno msgs servidor from: to: text: type: time//
     const chat = document.querySelector('.msgcorpo');
     chat.innerHTML = '';
@@ -69,33 +73,38 @@ function msgs(resposta) {
     lastmsg.scrollIntoView();
 }
 
+const dest = '';
+
 function enviarmsg() {
-    const dest = '';
     const x = document.querySelector(".texto");
     console.log(x.value);
-    let condicao = confirm('enviar mensagem para todos?');
+    sendmsg(x.value);
+    /*let condicao = confirm('enviar mensagem para todos?');
     if (condicao) {
         sendmsg(x.value);
     } else {
+        console.log(dest);
         dest = prompt("Informe o destinatário");
-        sendmsg(x.value, dest);
-    }
+        console.log(dest);
+        sendmsg(x.value);
+    }*/
 }
 
-function sendmsg(texto, dest) {
-    const y = texto;
+function sendmsg(texto) {
     let enviar = {};
+    console.log(texto);
     if (dest !== '') {
         enviar = {
             from: user,
             to: 'todos',
-            text: y,
+            text: texto,
             type: 'message' // ou "private_message" para o bônus
         }
+        console.log(enviar);
     }
     const z = axios.post("https://mock-api.driven.com.br/api/v6/uol/messages", enviar);
     z.then(carregarMsgs);
-   // z.catch(window.location.reload());
+    // z.catch(window.location.reload());
 
 }
 
