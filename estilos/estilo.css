@@ -52,12 +52,13 @@ time {
 
 .msgcorpo {
     width: 375px;
-    height: 507px;
+    height: 490px;
     margin-top: 96px;
+    overflow-y: scroll;
 }
 
 .mensagem input {
-    width: 145px;
+    width: 300px;
     height: 30px;
     border: none;
 }
@@ -83,7 +84,7 @@ input::placeholder {
 
 .msg {
     width: 100%;
-    height: 40px;
+    min-height: 40px;
     margin-bottom: 4px;
     background-color: #ffffff;
     border-radius: 2px;
@@ -123,10 +124,12 @@ input::placeholder {
     font-size: 16px;
     line-height: 19px;
 }
-.mensagem ion-icon:hover{
+
+.mensagem ion-icon:hover {
     cursor: pointer;
     background-color: tomato;
 }
+
 /*
 .contatos li {
     display: flex;

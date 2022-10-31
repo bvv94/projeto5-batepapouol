@@ -1,7 +1,11 @@
+let mensagens = [];
+const nome = prompt('informe seu nome: ');
 const nome = {};
 const chat = {};
 let user = '';
 
+const user = {
+    name: nome
 inicio();
 
 function inicio() {
@@ -12,63 +16,69 @@ function inicio() {
     userName.then(carregarMsgs);
     userName.catch(inicio);
 }
+const userName = axios.post("https://mock-api.driven.com.br/api/v6/uol/participants", user);
+userName.then(entrada);
 // ----- FIM ADICIONAR USUARIO- ----///
-online();
+setInterval(online, 5000);
+
+function entrada(){
+    const listaUsers = axios.get("https://mock-api.driven.com.br/api/v6/uol/participants");
+    listaUsers.then(carregarUsers);
+    console.log(listaUsers);
+    alert("vc entrou");
 function online() {
-    axios.post("https://mock-api.driven.com.br/api/v6/uol/status", { name: nome });
+    const reposta = axios.post("https://mock-api.driven.com.br/api/v6/uol/status", { name: nome });
+    reposta.catch(window.location.reload);
 }
-setInterval(online, 2000);
 
-// online();
-/*
-    function keepConnected() {
-        setInterval(() => {
-        axios.post("https://mock-api.driven.com.br/api/v6/uol/status", { name: nome }), then((resposta) => console.log(resposta.status));
-    }, 5000);
-}
-online();
-
-*/
-
+function carregarUsers(usuarios){
+    console.log(usuarios.data);
 function carregarMsgs() {
     const mensagens = axios.get("https://mock-api.driven.com.br/api/v6/uol/messages");
     mensagens.then(msgs);
 }
 
+//----FIM ENVIO NOME------//
 setInterval(carregarMsgs, 10000);
-
 
 function msgs(resposta) {
     const mensagens = resposta.data; //retorno msgs servidor from: to: text: type: time//
     const chat = document.querySelector('.msgcorpo');
     chat.innerHTML = '';
+    chat.scrollIntoView();
     for (let i = 0; i < mensagens.length; i++) {
         const msg = mensagens[i];
-        if (msg.type === "status") {
-            chat.innerHTML += `<li class="msg status">
-                            <span><time>(${msg.time})</time> <span class=bold> ${msg.from}</span> ${msg.text}</span>
+        /*if (msg.type === "status") {
+            alert("entrou status");*/
+        chat.innerHTML += `<li class="msg status">
+                            <span><time>(${msg.time})</time>   <span class=bold> ${msg.from}</span> para <span class=bold>${msg.to}</span>: ${msg.text}</span>
                             </li>`;
-        }
-        else if (msg.type === "message") {
-            if (msg.to === 'Todos') {
-                chat.innerHTML += `<li class="msg">
-                            <span><time>(${msg.time})</time> <span class=bold>${msg.from}</span> para: <span class=bold>${msg.to}</span> ${msg.text}</span>
-                            </li>`;
-            }
-        }
-        else if (msg.type === "private-message") {
-            if (msg.to === user) {
-                chat.innerHTML += `<li class="msg reservada">
-                            <span><time>(${msg.time})</time> <span class=bold>${msg.from}</span> reservadamente para: <span class=bold>${msg.to}</span> ${msg.text}</span>
-                            </li>`;
-            }
-        }
+        console.log(msg);
+        chat.scrollIntoView(mensagens[i]);
+        /* }
+if (msg.type === "message") {
+    alert("entrou message");
+    chat.innerHTML += `<li class="msg">
+                    <span><time>(${msg.time})</time> ${msg.from} ${msg.text}</span>
+                    </li>`;
+}
+if (msg.type === "private-message") {
+    alert("entrou private");
+    chat.innerHTML += `<li class="msg reservada">
+                    <span><time>(${msg.time})</time> <bold>${msg.from}</b> ${msg.text}</span>
+                    </li>`;
+}
+console.log(chat.innerHTML);
+}*/
 
+function carregarMsgs(msgs) {
+    mensagens = msgs.data;
+    console.log(mensagens);
     }
-    const lastmsg = document.querySelector('.msgcorpo').lastElementChild;
-    lastmsg.scrollIntoView();
 }
 
+    // const newuser = {name: nome}
+    renderizar();
 function enviarmsg() {
     const dest = '';
     const x = document.querySelector(".texto");
@@ -93,10 +103,7 @@ function sendmsg(texto, dest) {
             type: 'message' // ou "private_message" para o bônus
         }
     }
-    const z = axios.post("https://mock-api.driven.com.br/api/v6/uol/messages", enviar);
-    z.then(carregarMsgs);
-   // z.catch(window.location.reload());
-
+    axios.post("https://mock-api.driven.com.br/api/v6/uol/messages", enviar);
 }
 
 /*  const msg = mensagens[i];
@@ -106,6 +113,7 @@ function sendmsg(texto, dest) {
                             <span><span class="time">${msg.time}<b> ${msg.from} ${msg.text}</span></span>
                             </li>`;
     }
+}
 }*/
 
 // chat.scrollIntoView();
