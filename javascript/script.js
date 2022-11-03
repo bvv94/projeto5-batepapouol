@@ -60,7 +60,7 @@ function msgs(resposta) { //------renderiza as msgs
         }
         else if (msg.type === "private-message") {
             if (msg.to === user) {
-                chat.innerHTML += `<li class="msg reservada" data-test="message">
+                chat.innerHTML += `<li data-test="message" class="msg reservada">
                             <span><time>(${msg.time})</time> <span class=bold>${msg.from}</span> reservadamente para: <span class=bold>${msg.to}</span> ${msg.text}</span>
                             </li>`;
             }
@@ -95,8 +95,8 @@ function sendmsg(texto) {
         type: 'message' // ou "private_message" para o bônus
     }
     console.log(enviar);
-    const z = axios.post("https://mock-api.driven.com.br/api/v6/uol/messages", enviar);
-    z.then(carregarMsgs);
+    const promisse = axios.post("https://mock-api.driven.com.br/api/v6/uol/messages", enviar);
+    promisse.then(carregarMsgs);
     // z.catch(window.location.reload());
 
 }
