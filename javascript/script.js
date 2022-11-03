@@ -47,20 +47,20 @@ function msgs(resposta) { //------renderiza as msgs
     for (let i = 0; i < mensagens.length; i++) {
         const msg = mensagens[i];
         if (msg.type === "status") {
-            chat.innerHTML += `<li class="msg status">
+            chat.innerHTML += `<li data-test="message" class="msg status">
                             <span><time>(${msg.time})</time> <span class=bold> ${msg.from}</span> ${msg.text}</span>
                             </li>`;
         }
         else if (msg.type === "message") {
             if (msg.to === 'Todos') {
-                chat.innerHTML += `<li class="msg">
+                chat.innerHTML += `<li data-test="message" class="msg">
                             <span><time>(${msg.time})</time> <span class=bold>${msg.from}</span> para: <span class=bold>${msg.to}</span> ${msg.text}</span>
                             </li>`;
             }
         }
         else if (msg.type === "private-message") {
             if (msg.to === user) {
-                chat.innerHTML += `<li class="msg reservada">
+                chat.innerHTML += `<li class="msg reservada" data-test="message">
                             <span><time>(${msg.time})</time> <span class=bold>${msg.from}</span> reservadamente para: <span class=bold>${msg.to}</span> ${msg.text}</span>
                             </li>`;
             }

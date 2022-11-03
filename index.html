@@ -14,13 +14,13 @@
     <div class="corpo">
         <div class="barra cabecalho">
             <img class="logo" src="./imagens/logo 1.png">
-            <img class="contatos" src="./imagens/Vector.png">
+            <img data-test="open-participants" class="contatos" src="./imagens/Vector.png">
         </div>
         <ul class="msgcorpo">
         </ul>
         <div class="barra mensagem">
-            <input class="texto" placeholder="Escreva aqui...">
-            <ion-icon onclick="enviarmsg()" name="paper-plane-outline"></ion-icon>
+            <input data-test="input-message" class="texto" placeholder="Escreva aqui...">
+            <ion-icon data-test="send-message" onclick="enviarmsg()" name="paper-plane-outline"></ion-icon>
         </div>
 
         <!--<div class="sidebar ">
